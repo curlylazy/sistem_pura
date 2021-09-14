@@ -9,6 +9,15 @@ if(empty($id))
 else
 {
 	$aksiform = "$aksi?act=update";
+    $Sql = " SELECT * FROM tbl_pura
+             WHERE kodepura = :kodepura ";
+
+    $sth = $database->pdo->prepare($Sql);
+    $sth->bindValue(':kodepura', $id, PDO::PARAM_STR);
+    $sth->execute();
+    $row = $sth->fetch();
+
+    $keterangan = $row['keterangan'];
 }
 
 ?>
@@ -75,16 +84,6 @@ function ReadDataHeader()
 
     if(!empty($id))
     {
-        $Sql = " SELECT * FROM tbl_pura
-                 WHERE kodepura = :kodepura ";
-
-        $sth = $database->pdo->prepare($Sql);
-        $sth->bindValue(':kodepura', $id, PDO::PARAM_STR);
-        $sth->execute();
-        $row = $sth->fetch();
-
-        $keterangan = $row['keterangan'];
-
         // $gambar = "";
         // if(file_exists("data/gambar_upload/$row[gambarkampus]"))
         // {
@@ -166,12 +165,10 @@ $(document).ready(function() {
 
     if(id != "")
     {
+        var kabupaten = "<?= $row['kabupaten']; ?>";
+        var kecamatan = "<?= $row['kecamatan']; ?>";
         ReadDataHeader();
     }
-
-    $("#kabupatenkampus").change(function() {
-        DropDownKecamatan();
-    });
 
     $("#provinsi").change(function() {
         var obj = ProvinsiSource.find(o => o.value === this.value);
