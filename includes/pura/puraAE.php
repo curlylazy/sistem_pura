@@ -18,65 +18,30 @@ else
     $row = $sth->fetch();
 
     $keterangan = $row['keterangan'];
+    $kodeuser = $row['kodeuser'];
+
+    $isenablesave = false;
+    if($_SESSION == 'ADMIN')
+    {
+        $isenablesave = true;
+    }
+    else
+    {
+        if($_SESSION['kodeuser'] == $kodeuser)
+        {
+            $isenablesave = true;
+        }
+        else
+        {
+            $isenablesave = false;
+        }
+    }
+
 }
 
 ?>
 
 <script>
-
-function DropDownKabupaten()
-{
-    var option = "";
-    option += "<option value=''>Pilih Kabupaten</option>";
-    option += "<option value='Denpasar'>Denpasar</option>";
-    option += "<option value='Badung'>Badung</option>";
-    option += "<option value='Singaraja'>Singaraja</option>";
-
-    $('#kabupatenkampus').html(option);
-}
-
-function DropDownKecamatan()
-{
-    var kabupatenkampus = $("#kabupatenkampus").val();
-    var option = "";
-
-    $('#kecamatankampus').html("");
-
-    option += "<option value=''>Pilih Kecamatan</option>";
-
-    if(kabupatenkampus == "Denpasar")
-    {
-        option += "<option value='Denpasar Utara'>Denpasar Utara</option>";
-        option += "<option value='Denpasar Barat'>Denpasar Barat</option>";
-        option += "<option value='Denpasar Timur'>Denpasar Timur</option>";
-        option += "<option value='Denpasar Selatan'>Denpasar Selatan</option>";
-    }
-
-    else if(kabupatenkampus == "Badung")
-    {
-        option += "<option value='Abian Semal'>Abian Semal</option>";
-        option += "<option value='Kuta'>Kuta</option>";
-        option += "<option value='Kuta Selatan'>Kuta Selatan</option>";
-        option += "<option value='Kuta Utara'>Kuta Utara</option>";
-        option += "<option value='Mengwi'>Mengwi</option>";
-        option += "<option value='Petang'>Petang</option>";
-    }
-
-    else if(kabupatenkampus == "Singaraja")
-    {
-        option += "<option value='Banjar'>Banjar</option>";
-        option += "<option value='Buleleng'>Buleleng</option>";
-        option += "<option value='Busung Biu'>Busung Biu</option>";
-        option += "<option value='Gerokgak'>Gerokgak</option>";
-        option += "<option value='Kubutambahan'>Kubutambahan</option>";
-        option += "<option value='Sawan'>Sawan</option>";
-        option += "<option value='Seririt'>Seririt</option>";
-        option += "<option value='Sukasada'>Sukasada</option>";
-        option += "<option value='Tejakula'>Tejakula</option>";
-    }
-
-    $('#kecamatankampus').html(option);
-}
 
 function ReadDataHeader()
 {
@@ -119,11 +84,6 @@ $(document).ready(function() {
 
     // edit data
 
-    // $('#jk_lakilaki').attr('checked', true);
-
-    // DropDownKabupaten();
-    // DropDownKecamatan();
-
     $('.textarea').wysihtml5();
 
     var KabupatenSource = "";
@@ -142,7 +102,7 @@ $(document).ready(function() {
                 KabupatenSource = JSON.parse(allText);
                 // KabupatenSource.push(allText);
                 // KabupatenSource = "["+allText+"]";
-                console.log(KabupatenSource);
+                // console.log(KabupatenSource);
             }
         }
     }
@@ -166,8 +126,26 @@ $(document).ready(function() {
     if(id != "")
     {
         var kabupaten = "<?= $row['kabupaten']; ?>";
-        var kecamatan = "<?= $row['kecamatan']; ?>";
+        var provinsi = "<?= $row['provinsi']; ?>";
         ReadDataHeader();
+
+        var obj = ProvinsiSource.find(o => o.label === provinsi);
+        $("#provinsi").val(obj.value);
+
+        // load kabupatennya
+        var arr_opt_kabupaten = "";
+        var rows_kabupaten = KabupatenSource.filter(o => o.idprov === obj.value);
+
+        arr_opt_kabupaten += "<option value=''>Pilih Kabupaten</option>";
+        for (let index = 0; index < rows_kabupaten.length; ++index)
+        {
+            arr_opt_kabupaten += "<option value='" + rows_kabupaten[index]['value'] + "'>" + rows_kabupaten[index]['label'] + "</option>";
+        }
+
+        $("#kabupaten").html(arr_opt_kabupaten);
+        
+        var obj = KabupatenSource.find(o => o.label === kabupaten);
+        $("#kabupaten").val(obj.value);
     }
 
     $("#provinsi").change(function() {
@@ -242,7 +220,7 @@ $(document).ready(function() {
     </section>
 
     <div class="info-box">
-        <span class="info-box-icon bg-yellow"><i class="fa <?= $FAicon; ?>"></i></span>
+        <span class="info-box-icon bg-green"><i class="fa <?= $FAicon; ?>"></i></span>
         <div class="info-box-content">
             <span class="info-box-number"><?= $arr['headname'] ?></span>
             <p><?= $arr['description']; ?></p>
@@ -259,7 +237,7 @@ $(document).ready(function() {
 </div>
 
 <div class="col-md-12">
-	<div class="box box-warning">
+	<div class="box box-success">
 
 		<form id="form1" enctype="multipart/form-data">
 
@@ -318,7 +296,7 @@ $(document).ready(function() {
                     <input type="text" class="form-control" name="piodalan" id="piodalan" placeholder="masukkan data..">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="kondisipura">Jenis Pura</label>
+                    <label for="kondisipura">Kondisi Pura</label>
                     <select class="form-control" name="kondisipura" id="kondisipura"><?= $fs->DropDownKondisiPura(); ?></select>
                 </div>
             </div>
@@ -343,7 +321,7 @@ $(document).ready(function() {
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label for="ketuapengelola">Alamat Pura</label>
+                    <label for="ketuapengelola">Ketua Pengelola</label>
                     <input class="form-control" name="ketuapengelola" id="ketuapengelola" />
                 </div>
             </div>
@@ -361,7 +339,9 @@ $(document).ready(function() {
 		</div>
 		<div class="box-footer">
 			<a class="btn btn-default" href="?page=<?= $arr['prefix'] ?>"><span class="glyphicon glyphicon-backward"></span> KEMBALI</a>
-			<button type="button" id="simpan" class="btn btn-danger"><span class="glyphicon glyphicon-save"></span> SIMPAN</button>
+            <?php if($isenablesave): ?>
+                <button type="button" id="simpan" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> SIMPAN</button>
+            <?php endif ?>
 		</div>
 
 		</form>

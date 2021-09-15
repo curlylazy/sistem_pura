@@ -1,37 +1,19 @@
 <?php
 
-$FAicon = "fa-book";
+$FAicon = "fa-bar-chart";
 
 switch ($act)
 {
-	case 'item':
-		$arr = array( "headname" => "Laporan Barang", "description" => "daftar data barang", "prefix" => "barang");
-		$bc = array( "Home" => "?page=home", "Laporan" => "#", "barang" => "#");
-		include("includes/laporan/item.php");
+	case 'grafikpurabyprovinsi':
+		$arr = array( "headname" => "Laporan Grafik Pura by Provinsi", "description" => "daftar data pura berdasarkan provinsi", "prefix" => "grafik");
+		$bc = array( "Home" => "?page=home", "Laporan" => "#", "Grafik Pura" => "#");
+		include("includes/laporan/grafikpurabyprovinsi.php");
 	break;
 
-	case 'itemmasuk':
-		$arr = array( "headname" => "Laporan Barang Masuk", "description" => "daftar data barang masuk", "prefix" => "barang");
-		$bc = array( "Home" => "?page=home", "Laporan" => "#", "Barang Masuk" => "#");
-		include("includes/laporan/itemmasuk.php");
-	break;
-
-	case 'itemkeluar':
-		$arr = array( "headname" => "Laporan Barang Keluar", "description" => "daftar data barang keluar", "prefix" => "barang");
-		$bc = array( "Home" => "?page=home", "Laporan" => "#", "Barang Keluar" => "#");
-		include("includes/laporan/itemkeluar.php");
-	break;
-
-	case 'grafikitemmasuk':
-		$arr = array( "headname" => "Laporan Grafik Barang Masuk", "description" => "daftar data barang masuk", "prefix" => "barang");
-		$bc = array( "Home" => "?page=home", "Laporan" => "#", "Barang Masuk" => "#");
-		include("includes/laporan/grafikitemmasuk.php");
-	break;
-
-	case 'grafikitemkeluar':
-		$arr = array( "headname" => "Laporan Grafik Barang Keluar", "description" => "daftar data barang keluar", "prefix" => "barang");
-		$bc = array( "Home" => "?page=home", "Laporan" => "#", "Barang Keluar" => "#");
-		include("includes/laporan/grafikitemkeluar.php");
+	case 'grafikpurabyjenis':
+		$arr = array( "headname" => "Laporan Grafik Pura by Jenis", "description" => "daftar data pura berdasarkan jenis", "prefix" => "grafik");
+		$bc = array( "Home" => "?page=home", "Laporan" => "#", "Grafik Pura" => "#");
+		include("includes/laporan/grafikpurabyjenis.php");
 	break;
 
 	default:

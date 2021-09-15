@@ -11,7 +11,7 @@
 	</section>
 
 	<div class="info-box">
-		<span class="info-box-icon bg-yellow"><i class="fa fa-dashboard"></i></span>
+		<span class="info-box-icon bg-green"><i class="fa fa-dashboard"></i></span>
 		<div class="info-box-content">
 			<span class="info-box-number"><?= $arr['headname'] ?></span>
 			<p><?= $arr['description']; ?></p>
@@ -60,7 +60,7 @@ $jumlah_pura = number_format($row['total']);
 
 <!-- untuk tampilan -->
 <div class='col-md-3'>
-	<div class='small-box bg-red'>
+	<div class='small-box bg-green'>
 		<div class='inner'>
 			<h3>TOTAL USER : <?= $jumlah_user ?></h3>
 			<p>jumlah keseluruhan user</p>
@@ -75,7 +75,7 @@ $jumlah_pura = number_format($row['total']);
 </div>
 
 <div class='col-md-3'>
-	<div class='small-box bg-red'>
+	<div class='small-box bg-green'>
 		<div class='inner'>
 			<h3>PURA : <?= $jumlah_pura ?></h3>
 			<p>jumlah pura</p>

@@ -22,6 +22,8 @@ if($act == "tambah")
 
 		global $fs, $sc, $page, $tabel;
 
+		$kodeuser = $fs->GetKode("kodeuser", "USER", $tabel, $database);
+
 		$cekData = $fs->CariData("username", "username", $sc->FilterString($_POST['username']), $tabel, $database);
 		if($cekData != "")
 		{
@@ -31,6 +33,7 @@ if($act == "tambah")
 
 		// insert
 		$database->insert($tabel, [
+			"kodeuser" => $kodeuser,
 			"username" => $sc->FilterString($_POST['username']),
 			"password" => $sc->FilterString($_POST['password']),
 			"namauser" => $sc->FilterString($_POST['namauser']),
@@ -60,14 +63,28 @@ elseif($act == "update")
 	$database->action(function($database) {
 
 		global $fs, $sc, $page, $tabel;
+	
+		$username = $sc->FilterString($_POST['username']);
+		$username_old = $sc->FilterString($_POST['username_old']);
+
+		if($username != $username_old)
+		{
+			$cekData = $fs->CariData("username", "username", $sc->FilterString($_POST['username']), $tabel, $database);
+			if($cekData != "")
+			{
+				echo "User yang diinput sudah digunakan sebelumnya.|";
+				return false;
+			}
+		}
 
 		$database->update($tabel, [
+			"username" => $sc->FilterString($_POST['username']),
 			"password" => $sc->FilterString($_POST['password']),
 			"namauser" => $sc->FilterString($_POST['namauser']),
 			"akses" => $sc->FilterString($_POST['akses']),
 			"dateupduser" => $sc->FilterString(date("Y-m-d")),
 		],[
-			"username[=]" => $sc->FilterString($_POST['username'])
+			"kodeuser[=]" => $sc->FilterString($_POST['kodeuser'])
 		]);
 
 		$error = $database->error();
@@ -93,7 +110,7 @@ elseif($act == "hapus")
 		global $fs, $sc, $page, $tabel;
 
 		$database->delete($tabel, [
-			"username" => $sc->FilterString($_GET['id'])
+			"kodeuser" => $sc->FilterString($_GET['id'])
 		]);
 
 		$error = $database->error();

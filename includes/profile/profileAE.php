@@ -79,7 +79,7 @@ $(document).ready(function() {
 	</section>
 
 	<div class="info-box">
-		<span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+		<span class="info-box-icon bg-green"><i class="fa fa-users"></i></span>
 		<div class="info-box-content">
 			<span class="info-box-number"><?= $arr['headname'] ?></span>
 			<p><?= $arr['description']; ?></p>
@@ -88,7 +88,7 @@ $(document).ready(function() {
 </div>
 
 <div class="col-md-12">
-	<div class="box box-warning">
+	<div class="box box-success">
 
 		<form id="form1" enctype="multipart/form-data">
 			<div class="box-body">
@@ -137,7 +137,7 @@ $(document).ready(function() {
 			</div>
 			<div class="box-footer">
 				<a class="btn btn-default" href="?page=home"><span class="glyphicon glyphicon-backward"></span> KEMBALI </a>
-				<button type="button" id="simpan" class="btn btn-danger"><span class="glyphicon glyphicon-save"></span> SIMPAN</button>
+				<button type="button" id="simpan" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> SIMPAN</button>
 			</div>
 		</form>
 	</div>

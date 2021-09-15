@@ -36,6 +36,7 @@ function ReadDataHeader()
         "
             $('#username').addClass('disable');
             $('#username').val('$row[username]');
+            $('#username_old').val('$row[username]');
             $('#namauser').val('$row[namauser]');
             $('#password').val('$row[password]');
             $('#akses').val('$row[akses]');
@@ -108,7 +109,7 @@ $(document).ready(function() {
     </section>
 
     <div class="info-box">
-        <span class="info-box-icon bg-yellow"><i class="fa <?= $FAicon; ?>"></i></span>
+        <span class="info-box-icon bg-green"><i class="fa <?= $FAicon; ?>"></i></span>
         <div class="info-box-content">
             <span class="info-box-number"><?= $arr['headname'] ?></span>
             <p><?= $arr['description']; ?></p>
@@ -125,7 +126,7 @@ $(document).ready(function() {
 </div>
 
 <div class="col-md-12">
-    <div class="box box-warning">
+    <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title">Form <?= $arr['headname'] ?></h3>
         </div>
@@ -136,6 +137,7 @@ $(document).ready(function() {
 
         <div class="box-body">
 
+            <input type="hidden" class="form-control" id="username_old" name="username_old" />
 
             <div class="row">
                 <div class="col-md-6">
@@ -174,7 +176,7 @@ $(document).ready(function() {
         </div>
         <div class="box-footer">
             <a class="btn btn-default" href="?page=<?= $arr['prefix'] ?>"><span class="glyphicon glyphicon-backward"></span> KEMBALI</a>
-            <button type="button" id="simpan" class="btn btn-danger"><span class="glyphicon glyphicon-save"></span> SIMPAN</button>
+            <button type="button" id="simpan" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> SIMPAN</button>
         </div>
 
         </form>

@@ -22,7 +22,7 @@ if($act == "tambah")
 
 		global $fs, $sc, $page, $tabel;
 
-		$kodepura = $fs->GetKode("kodepura", "pura", $tabel, $database);
+		$kodepura = $fs->GetKode("kodepura", "PURA", $tabel, $database);
 		// $gambarpura = UploadData("gambarpura", "../../data/gambar_upload/", "");
 
 		// insert

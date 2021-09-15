@@ -123,9 +123,10 @@ $sc  = new Security();
     <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-    <script src="plugins/highchart/js/highcharts.js"></script>
-    <script src="plugins/highchart/js/modules/exporting.js"></script>
-    <!-- <link rel="stylesheet" href="plugins/highchart/js/highcharts.css" type="text/css"/> -->
+    <script src="plugins/highchart/highcharts.js"></script>
+    <script src="plugins/highchart/modules/exporting.js"></script>
+    <script src="plugins/highchart/modules/export-data.js"></script>
+    <script src="plugins/highchart/modules/accessibility.js"></script>
 
     <script src="data/balicoding.js"></script>
     <style>
@@ -161,7 +162,7 @@ $(document).ready(function() {
 });
 </script>
 
-<body class="hold-transition skin-red fixed sidebar-mini">
+<body class="hold-transition skin-green fixed sidebar-mini">
     <div class="wrapper">
 
     <header class="main-header">
@@ -227,6 +228,8 @@ $(document).ready(function() {
 
                 <li class="header">INFORMASI</li>
                 <li><a href="?page=pura"><i class="fa fa-building"></i> <span>Pura</span></a></li>
+                <li><a href="?page=laporan&act=grafikpurabyprovinsi"><i class="fa fa-bar-chart"></i> <span>Grafik By Provinsi</span></a></li>
+                <li><a href="?page=laporan&act=grafikpurabyjenis"><i class="fa fa-bar-chart"></i> <span>Grafik By Jenis</span></a></li>
 
                 <!-- <li class="header">LAPORAN</li>
                 <li><a href="?page=laporan&act=item"><i class="fa fa-book"></i> <span>Laporan Barang</span></a></li>
@@ -249,7 +252,7 @@ $(document).ready(function() {
     </div>
 
     <footer class="main-footer">
-        <strong>Copyright &copy; <?= date("Y"); ?> LigioTP
+        <strong>Copyright &copy; <?= date("Y"); ?> by: I Gede Dipayana
     </footer>
 
 
