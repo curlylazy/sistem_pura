@@ -49,12 +49,12 @@ function ReadDataHeader()
 
     if(!empty($id))
     {
-        // $gambar = "";
-        // if(file_exists("data/gambar_upload/$row[gambarkampus]"))
-        // {
-        //     $gambarraw = "data/gambar_upload/$row[gambarkampus]";
-        //     $gambar = "<img src='data/gambar_upload/$row[gambarkampus]' style='width: 200px;' />";
-        // }
+        $gambar = "";
+        if(file_exists("data/gambar_upload/$row[gambarpura]"))
+        {
+            $gambarraw = "data/gambar_upload/$row[gambarpura]";
+            $gambar = "<img src='data/gambar_upload/$row[gambarpura]' style='width: 800px;' />";
+        }
 
         echo
         "
@@ -326,15 +326,15 @@ $(document).ready(function() {
                 </div>
             </div>
 
-            <!-- <div class="row">
+            <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Gambar</label>
-                        <input type="file" class="form-control" id="gambarkampus" name="gambarkampus">
+                        <input type="file" class="form-control" id="gambarpura" name="gambarpura"><br />
                         <?= $gambar; ?>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
 		</div>
 		<div class="box-footer">

@@ -23,7 +23,7 @@ if($act == "tambah")
 		global $fs, $sc, $page, $tabel;
 
 		$kodepura = $fs->GetKode("kodepura", "PURA", $tabel, $database);
-		// $gambarpura = UploadData("gambarpura", "../../data/gambar_upload/", "");
+		$gambarpura = UploadData("gambarpura", "../../data/gambar_upload/", "");
 
 		// insert
 		$database->insert($tabel, [
@@ -42,6 +42,7 @@ if($act == "tambah")
 			"luaspura" => $sc->FilterString($_POST['luaspura']),
 			"status_tanah_pura" => $sc->FilterString($_POST['status_tanah_pura']),
 			"keteranganpura" => $_POST['keteranganpura'],
+			"gambarpura" => $gambarpura,
 			"dateaddpura" => $sc->FilterString(date("Y-m-d")),
 			"dateupdpura" => $sc->FilterString(date("Y-m-d")),
 		]);
@@ -67,8 +68,8 @@ elseif($act == "update")
 
 		global $fs, $sc, $page, $tabel;
 
-		// $gambarlama = $fs->CariData("gambarpura", "kodepura", $sc->FilterString($_POST['kodepura']), $tabel, $database);
-		// $gambarpura = UploadData("gambarpura", "../../data/gambar_upload/", $gambarlama);
+		$gambarlama = $fs->CariData("gambarpura", "kodepura", $sc->FilterString($_POST['kodepura']), $tabel, $database);
+		$gambarpura = UploadData("gambarpura", "../../data/gambar_upload/", $gambarlama);
 
 		$database->update($tabel, [
 			"jenispura" => $sc->FilterString($_POST['jenispura']),
@@ -84,6 +85,7 @@ elseif($act == "update")
 			"luaspura" => $sc->FilterString($_POST['luaspura']),
 			"status_tanah_pura" => $sc->FilterString($_POST['status_tanah_pura']),
 			"keteranganpura" => $_POST['keteranganpura'],
+			"gambarpura" => $gambarpura,
 			"dateupdpura" => $sc->FilterString(date("Y-m-d")),
 		],[
 			"kodepura[=]" => $sc->FilterString($_POST['kodepura'])
