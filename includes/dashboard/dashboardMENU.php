@@ -26,7 +26,7 @@ if($_SESSION['akses'] == 'ADMIN')
 	bannerPage("Data User", "col-md-6", "Kelola data user", "fa fa-users", "?page=admin");
 }
 
-bannerPage("Data Pura", "col-md-6", "lihat informasi mahasiswa", "fa fa-users", "?page=mahasiswa&act=informasi");
+bannerPage("Data Pura", "col-md-6", "lihat informasi pura", "fa fa-building", "?page=pura");
 
 ?>
 
