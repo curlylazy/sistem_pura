@@ -5,6 +5,7 @@ $id = $_GET['id'];
 if(empty($id))
 {
     $aksiform = "$aksi?act=tambah";
+    $isenablesave = true;
 }
 else
 {

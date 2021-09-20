@@ -74,12 +74,21 @@ $(document).ready(function() {
 							}
 							else
 							{
+								if($_SESSION['kodeuser'] == $row['kodeuser'])
+								{
+									$btn_delete = "<a class='btn btn-danger btn-xs' href='$aksi?act=hapus&id=$row[kodepura]' onClick=\"return confirm('Hapus data $row[kodepura] ?')\">
+									<span class='glyphicon glyphicon-remove'></span></a>";
+								}
+
 								$btn_aksi = "
 								<div class='btn-group'>
 									<a class='btn btn-default btn-xs' href='?page=$arr[prefix]&act=tambah&id=$row[kodepura]'>
 										<span class='glyphicon glyphicon-list'></span>
 									</a>
+									$btn_delete
 								</div>";
+
+								
 							}
 
 			                echo
