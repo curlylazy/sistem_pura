@@ -22,7 +22,8 @@ if($act == "tambah")
 
 		global $fs, $sc, $page, $tabel;
 
-		$kodepura = $fs->GetKode("kodepura", "PURA", $tabel, $database);
+		// $kodepura = $fs->GetKode("kodepura", "PURA", $tabel, $database);
+		$kodepura = $fs->prefixKode($sc->FilterString($_POST['jenispura']));
 		$gambarpura = UploadData("gambarpura", "../../data/gambar_upload/", "");
 
 		// insert

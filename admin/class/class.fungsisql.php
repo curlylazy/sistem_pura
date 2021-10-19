@@ -353,6 +353,38 @@ class FungsiSql{
 	    }
 	    return $randomString;
 	}
+
+
+	function prefixKode($jenispura)
+	{
+		if($jenispura == "SAD KHAYANGAN")
+		{
+			$kode = "SADKAHYANGAN";
+		}
+		elseif($jenispura == "DANG KHAYANGAN") 
+		{
+			$kode = "DANGKAHYANGAN";
+		}
+		elseif($jenispura == "KHAYANGAN TIGA") 
+		{
+			$kode = "KHAYANGANTIGA";
+		}
+		elseif($jenispura == "JAGATNATHA") 
+		{
+			$kode = "JAGATNATHA";
+		}
+		elseif($jenispura == "KUIL") 
+		{
+			$kode = "KUIL";
+		}
+		elseif($jenispura == "CANDI") 
+		{
+			$kode = "CANDI";
+		}
+
+		$kode = $kode."_".date("YmdHis");
+		return $kode;
+	}
 }
 
 ?>
