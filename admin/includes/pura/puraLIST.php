@@ -53,7 +53,12 @@ $(document).ready(function() {
 			            # Query
 			            $no = 1;
 			            $Sql = " SELECT * FROM tbl_pura
-								 INNER JOIN tbl_user ON (tbl_user.kodeuser = tbl_pura.kodeuser)";
+								 INNER JOIN tbl_user ON (tbl_user.kodeuser = tbl_pura.kodeuser) ";
+
+						if($_SESSION['akses'] == 'PIC')
+						{
+							$Sql .= " WHERE (tbl_user.kodeuser = '".$_SESSION['kodeuser']."')";
+						}
 
 			            $sth = $database->pdo->prepare($Sql);
 			            $sth->execute();
@@ -87,8 +92,6 @@ $(document).ready(function() {
 									</a>
 									$btn_delete
 								</div>";
-
-								
 							}
 
 			                echo

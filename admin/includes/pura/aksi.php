@@ -44,6 +44,8 @@ if($act == "tambah")
 			"status_tanah_pura" => $sc->FilterString($_POST['status_tanah_pura']),
 			"keteranganpura" => $_POST['keteranganpura'],
 			"gambarpura" => $gambarpura,
+			"longitude" => $_POST['longitude'],
+			"latitude" => $_POST['latitude'],
 			"dateaddpura" => $sc->FilterString(date("Y-m-d")),
 			"dateupdpura" => $sc->FilterString(date("Y-m-d")),
 		]);
@@ -87,6 +89,8 @@ elseif($act == "update")
 			"status_tanah_pura" => $sc->FilterString($_POST['status_tanah_pura']),
 			"keteranganpura" => $_POST['keteranganpura'],
 			"gambarpura" => $gambarpura,
+			"longitude" => $_POST['longitude'],
+			"latitude" => $_POST['latitude'],
 			"dateupdpura" => $sc->FilterString(date("Y-m-d")),
 		],[
 			"kodepura[=]" => $sc->FilterString($_POST['kodepura'])

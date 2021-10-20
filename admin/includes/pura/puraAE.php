@@ -6,6 +6,9 @@ if(empty($id))
 {
     $aksiform = "$aksi?act=tambah";
     $isenablesave = true;
+
+    $latitude = '-8.537056073005832';
+    $longitude = '115.11086225509644';
 }
 else
 {
@@ -22,7 +25,7 @@ else
     $kodeuser = $row['kodeuser'];
 
     $isenablesave = false;
-    if($_SESSION == 'ADMIN')
+    if($_SESSION['akses'] == 'ADMIN')
     {
         $isenablesave = true;
     }
@@ -57,6 +60,16 @@ function ReadDataHeader()
             $gambar = "<img src='data/gambar_upload/$row[gambarpura]' style='width: 800px;' />";
         }
 
+        if(empty($row['latitude']))
+            $latitude = '-8.537056073005832';
+        else
+            $latitude = $row['latitude'];
+
+        if(empty($row['longitude']))
+            $longitude = '115.11086225509644';
+        else
+            $longitude = $row['longitude'];
+
         echo
         "
             $('#kodepura').addClass('disable');
@@ -73,6 +86,9 @@ function ReadDataHeader()
             $('#piodalan').val('$row[piodalan]');
             $('#luaspura').val('$row[luaspura]');
             $('#status_tanah_pura').val('$row[status_tanah_pura]');
+
+            $('#latitude').val('$row[latitude]');
+            $('#longitude').val('$row[longitude]');
         ";
     }
 
@@ -89,8 +105,8 @@ $(document).ready(function() {
 
     var KabupatenSource = "";
     var ProvinsiSource = "";
-    var KabupatenURL = 'http://localhost/sistem_pura/data/kabupaten.txt';
-    var ProvinsiURL = 'http://localhost/sistem_pura/data/provinsi.txt';
+    var KabupatenURL = 'http://localhost/sistem_pura/admin/data/kabupaten.txt';
+    var ProvinsiURL = 'http://localhost/sistem_pura/admin/data/provinsi.txt';
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", KabupatenURL, false);
     rawFile.onreadystatechange = function ()
@@ -206,6 +222,175 @@ $(document).ready(function() {
 });
 </script>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJwqttWL-EfiBEYAu16mSUWw4PO6hWorY&libraries=places&callback=initAutocomplete"
+async defer></script>
+
+<script type="text/javascript">
+
+var map;
+var markersArray = [];
+
+function initAutocomplete() {
+
+    var map = new google.maps.Map(document.getElementById('petalokasi'), {
+        center: {lat: <?= $latitude; ?>, lng: <?= $longitude; ?>},
+        zoom: 17,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    google.maps.event.addListener(map, 'click', function (e) {
+        $("#latitude").val(e.latLng.lat());
+        $("#longitude").val(e.latLng.lng());
+
+        placeMarker(e.latLng);
+    });
+
+    var myLatLng = {lat: <?= $latitude; ?>, lng: <?= $longitude; ?>};
+
+
+        placeMarker(myLatLng);
+
+    function placeMarker(location) {
+        // first remove all markers if there are any
+        deleteOverlays();
+
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+
+        // add marker in markers array
+        markersArray.push(marker);
+
+        //map.setCenter(location);
+    }
+
+    // Deletes all markers in the array by removing references to them
+    function deleteOverlays() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+        markersArray.length = 0;
+        }
+    }
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+        searchBox.setBounds(map.getBounds());
+    });
+
+    var markers = [];
+    // [START region_getplaces]
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+        
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+          return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        markers = [];
+
+
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function(place) {
+            var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.name,
+                position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
+    });
+    // [END region_getplaces]
+}
+</script>
+
+<style>
+
+#map 
+{
+    height: 100%;
+}
+
+.controls 
+{
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 300px;
+}
+
+#pac-input:focus {
+    border-color: #4d90fe;
+}
+
+.pac-container {
+    font-family: Roboto;        
+}
+
+#type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+#target {
+    width: 345px;
+}
+
+</style>
 
 <div class="col-md-12">
     
@@ -326,6 +511,23 @@ $(document).ready(function() {
                     <input class="form-control" name="ketuapengelola" id="ketuapengelola" />
                 </div>
             </div>
+
+            <div class="row">
+                    <div class="form-group col-md-12">
+                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                        <div id="petalokasi" name="petalokasi" style="height: 500px;"></div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="latitude">Latitude</label>
+                        <input type="text" class="form-control" name="latitude" id="latitude" placeholder="masukkan data..">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="longitude">Longitude</label>
+                        <input type="text" class="form-control" name="longitude" id="longitude" placeholder="masukkan data..">
+                    </div>
+                </div>
 
             <div class="row">
                 <div class="col-md-12">
