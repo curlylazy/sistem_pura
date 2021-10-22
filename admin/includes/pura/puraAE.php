@@ -1,6 +1,21 @@
 
 <?php
 
+// detek apakah online atau localhost
+$whitelist = array(
+    '127.0.0.1',
+    '::1'
+);
+
+if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+    $ipaddress = "http://localhost/sistem_pura/admin";
+}
+else
+{
+    $ipaddress = "https://sidatrabimashindu.com/admin";
+}
+
+
 $id = $_GET['id'];
 if(empty($id))
 {
@@ -105,8 +120,8 @@ $(document).ready(function() {
 
     var KabupatenSource = "";
     var ProvinsiSource = "";
-    var KabupatenURL = 'http://localhost/sistem_pura/admin/data/kabupaten.txt';
-    var ProvinsiURL = 'http://localhost/sistem_pura/admin/data/provinsi.txt';
+    var KabupatenURL = "<?= $ipaddress ?>/data/kabupaten.txt";
+    var ProvinsiURL = "<?= $ipaddress ?>/data/provinsi.txt";
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", KabupatenURL, false);
     rawFile.onreadystatechange = function ()

@@ -1,3 +1,9 @@
+<?php
+
+$katakunci = $_POST['katakunci'];
+
+?>
+
 <!-- Page Header-->
 <header class="masthead" style="background-image: url('assets/img/home-bg.jpg')">
     <div class="container position-relative px-4 px-lg-5">
@@ -16,10 +22,10 @@
     <div class="row">
 
         <div class="col-md-12">
-            <form id="form1" enctype="multipart/form-data" class="row g-3">
+            <form id="form1" enctype="multipart/form-data" class="row g-3" action="index.php?page=dashboard" method="post">
                 <div class="col-md-6">
                     <label for="katakunci" class="form-label">Katakunci</label>
-                    <input type="text" class="form-control" id="katakunci" name="katakunci" placeholder="masukkan katakunci">
+                    <input type="text" class="form-control" value="<?= $katakunci ?>" id="katakunci" name="katakunci" placeholder="masukkan katakunci">
                 </div>
                 <div class="col-md-6">
                     <label for="provinsi" class="form-label">Provinsi</label>
@@ -28,7 +34,7 @@
                     </select>
                 </div>
                 <div>
-                    <button class="btn btn-primary btn-sm">Cari Pura</button>
+                    <button class="btn btn-primary btn-sm" type="submit">Cari Pura</button>
                 </div>
             </form>
         </div>
@@ -36,9 +42,13 @@
         <?php
 
         $Sql = " SELECT * FROM tbl_pura
-                 INNER JOIN tbl_user ON (tbl_user.kodeuser = tbl_pura.kodeuser) ";
+                 INNER JOIN tbl_user ON (tbl_user.kodeuser = tbl_pura.kodeuser) 
+                 WHERE (tbl_pura.namapura LIKE :katakunci OR 
+                        tbl_pura.jenispura LIKE :katakunci OR 
+                        tbl_pura.alamatpura LIKE :katakunci)";
 
         $sth = $database->pdo->prepare($Sql);
+        $sth->bindValue(':katakunci', "%$katakunci%", PDO::PARAM_STR);
         $sth->execute();
         while($row = $sth->fetch())
         {
@@ -66,7 +76,7 @@
                             Alamat : $row[alamatpura]<br />
                         </p>
                         <p class='card-text'>$keteranganpura</p>
-                        <a href='#' class='btn btn-primary btn-sm'>Selengkapnya</a>
+                        <a href='index.php?page=puradetail&id=$row[kodepura]' class='btn btn-primary btn-sm'>Selengkapnya</a>
                     </div>
                 </div>
             </div>

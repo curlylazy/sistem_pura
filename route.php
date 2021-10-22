@@ -15,7 +15,7 @@ elseif($page == "dashboard" || $page == "home")
 
 elseif($page == "puradetail")
 {
-	include("includes/profile/profile.php");
+	include("includes/puradetail.php");
 }
 
 else
